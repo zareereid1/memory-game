@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios'
+import { useEffect, useState} from 'react';
+import "../src/App.css";
+import PokeCard from "../src/Components/pokeCard/PokeCard"
+ 
 
-function App() {
+
+const App = () => {
+  const [pokeImg, setPokeImg] = useState("")
+  const [pokeName, setPokeName] = useState("")
+ 
+  
+  useEffect(() => {
+    
+    const getData = async () => {
+      
+      let res = await axios.get("https://pokeapi.co/api/v2/pokemon/5");
+
+      setPokeImg(res?.data?.sprites?.front_default);
+      setPokeName(res?.data?.name);
+    };
+ 
+    getData();
+  }, []);
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <PokeCard imgUrl={pokeImg} />
   );
-}
-
+};
+ 
 export default App;
